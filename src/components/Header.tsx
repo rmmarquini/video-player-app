@@ -1,9 +1,8 @@
-import { useAppSelector } from '../store'
-import { useCurrentLesson } from '../store/slices/players'
+import { useCurrentLesson, useStore } from '../zustand'
 
 export function Header() {
+  const isLoading = useStore((store) => store.isLoading)
   const { currentModule, currentLesson } = useCurrentLesson()
-  const isLoading = useAppSelector((state) => state.player.isLoading)
 
   if (isLoading) {
     return (

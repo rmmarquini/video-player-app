@@ -2,13 +2,18 @@ import { MessageCircle } from 'lucide-react'
 import { Header } from '../components/Header'
 import { Video } from '../components/Video'
 import { Module } from '../components/Module'
-import { useAppDispatch, useAppSelector } from '../store'
-import { loadCourses, useCurrentLesson } from '../store/slices/players'
 import { useEffect } from 'react'
+import { useCurrentLesson, useStore } from '../zustand'
 
 export function Player() {
-  const dispatch = useAppDispatch()
-  const modules = useAppSelector((state) => state.player.courses?.modules)
+  const { courses, load } = useStore((store) => {
+    return {
+      courses: store.courses,
+      load: store.load,
+    }
+  })
+
+  const modules = courses?.modules
   const { currentLesson } = useCurrentLesson()
 
   useEffect(() => {
@@ -16,7 +21,7 @@ export function Player() {
   }, [currentLesson])
 
   useEffect(() => {
-    dispatch(loadCourses())
+    load()
   }, [])
 
   return (
